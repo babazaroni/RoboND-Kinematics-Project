@@ -52,7 +52,7 @@ The constants in the table were derived from values in the the manufacturere sup
 
 (these values in the urdf value are relative to previous joint)
 
-The alpha values describe the orientation of the Z axis relative to the previous joint's Z axis and are either 0, pi/2, or -pi/2 radions.  (0,90,-90 degrees).  They are derived from the unit vectors described in the axis tag.
+The alpha values describe the orientation of a joint's Z axis relative to the previous joint's Z axis and are either 0, pi/2, or -pi/2 radions.  (0,90,-90 degrees).  They are derived from the unit vectors described in the axis tag.
 
 The axis choices are defined by the DH convention choices and don't always match the manufacturers choice.
 
