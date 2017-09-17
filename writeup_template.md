@@ -48,6 +48,29 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
+The individual transformation matrices about each joint can be constructed by first defining the a function that creates the matrix and substitues the values from the DH table defined above.  Then, each joint to joint table can be defined by calling this function with the corresponding symbols and supplying the DH table.
+
+```
+    def make_T(twist_angle, link_length, link_offset, joint_angle, subvals):
+        m = Matrix([[cos(joint_angle), -sin(joint_angle), 0, link_length],
+                    [sin(joint_angle) * cos(twist_angle), cos(joint_angle) * cos(twist_angle), -sin(twist_angle),
+                     -sin(twist_angle) * link_offset],
+                    [sin(joint_angle) * sin(twist_angle), cos(joint_angle) * sin(twist_angle), cos(twist_angle),
+                     cos(twist_angle) * link_offset],
+                    [0, 0, 0, 1]])
+        return m.subs(subvals)
+
+    # Create individual transformation matrices
+
+    T0_1 = make_T(alpha0,a0,d1,q1,DH_Table)
+    T1_2 = make_T(alpha1,a1,d2,q2,DH_Table)
+    T2_3 = make_T(alpha2,a2,d3,q3,DH_Table)
+    T3_4 = make_T(alpha3,a3,d4,q4,DH_Table)
+    T4_5 = make_T(alpha4,a4,d5,q5,DH_Table)
+    T5_6 = make_T(alpha5,a5,d6,q6,DH_Table)
+    T6_G=  make_T(alpha6,a6,d7,q7,DH_Table)
+```
+
 Here is the generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose. R is roll, P is pitch, Y is yaw.  px,py,pz is the gripper position.
 
 ```Matrix([
