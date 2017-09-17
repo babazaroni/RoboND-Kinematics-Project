@@ -21,6 +21,7 @@
 [image2]: ./misc_images/misc3.png
 [image3]: ./misc_images/misc2.png
 [image4]: ./misc_images/joint-diagram.png
+[image5]: ./misc_images/SSS-diagram.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -89,7 +90,7 @@ Here is the generalized homogeneous transform between base_link and gripper_link
 
 And here's where you can draw out and show your math for the derivation of your theta angles. 
 
-![alt text][image2]
+![alt text][image5]
 
 ### Project Implementation
 
