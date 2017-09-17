@@ -22,6 +22,7 @@
 [image3]: ./misc_images/misc2.png
 [image4]: ./misc_images/joint-diagram.png
 [image5]: ./misc_images/SSS-diagram.png
+[image6]: ./misc_images/joint-diagram-hand-drawn.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -36,6 +37,7 @@ The joint diagram describing the KR210 manipulator is:
 
 ![alt text][image4]
 
+
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
 0->1 | 0 | 0 | 0.75 | q1
@@ -45,6 +47,27 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 4->5 | pi/2	 | 0 | 0 | q5
 5->6 | -pi/2	 | 0 | 0 | q6
 6->EE | 0 | 0 | 0.303 | 0
+
+The constants in the table were derived from values in the the manufacturere supplied kr210.urdf.xacro file as follows:
+
+(these values in the urdf value are relative to previous joint)
+
+The alpha values describe the orientation of the Z axis relative to the previous joint's Z axis and are either 0, pi/2, or -pi/2 radions.  (0,90,-90 degrees).  They are derived from the unit vectors described in the axis tag.
+
+The 'a' values are the displacement along the joint x axis (defined by the DH convention)
+```
+a1:  .35  x value of Joint 2 position (line 330)
+a2: 1.25  z value of Joint 3 position (line 337)
+a3: -.54  z value of Joint 4 position (line 344)
+```
+
+The 'd' values are the displacement along the joint z axis (defined by the DH convention)
+
+```
+d1:  .75  z value of Joint 1 position (line 323) + z value of Joint 2 position (line 330)
+d4: 1.50  x value of Joint 4 position (line 344) + x value of Joint 5 position (line 351)
+d7: .303  x value of Gripper Joint position (line 288) + x value of Joint 6 position (line 358)
+```
 
 A dictionary of these constants and variables can be constructed as follows:
 
@@ -59,10 +82,12 @@ DH_Table = {
         alpha6:       0, a6:      0, d7:0.303, q7:           0 }
 ```
 
+![alt text][image6]
+
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
 
-The individual transformation matrices about each joint can be constructed by first defining the a function that creates the matrix and substitues the values from the DH table defined above.  Then, each joint to joint table can be defined by calling this function with the corresponding symbols and supplying the DH table.
+The individual transformation matrices about each joint can be constructed by first defining a function that creates the matrix and substitues the values from the DH table defined above.  Then, each joint to joint table can be defined by calling this function with the corresponding symbols and supplying the DH table.
 
 ```
     def make_T(twist_angle, link_length, link_offset, joint_angle, subvals):
