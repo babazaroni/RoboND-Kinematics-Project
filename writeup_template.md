@@ -54,14 +54,14 @@ The constants in the table were derived from values in the the manufacturere sup
 
 The alpha values describe the orientation of the Z axis relative to the previous joint's Z axis and are either 0, pi/2, or -pi/2 radions.  (0,90,-90 degrees).  They are derived from the unit vectors described in the axis tag.
 
-The 'a' values are the displacement along the joint x axis (defined by the DH convention)
+The 'a' values are the displacement along the joint x axis (defined by the DH convention choice)
 ```
 a1:  .35  x value of Joint 2 position (line 330)
 a2: 1.25  z value of Joint 3 position (line 337)
 a3: -.54  z value of Joint 4 position (line 344)
 ```
 
-The 'd' values are the displacement along the joint z axis (defined by the DH convention)
+The 'd' values are the displacement along the joint z axis (defined by the DH convention choice)
 
 ```
 d1:  .75  z value of Joint 1 position (line 323) + z value of Joint 2 position (line 330)
