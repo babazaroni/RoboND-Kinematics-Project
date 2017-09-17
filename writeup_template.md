@@ -50,7 +50,7 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 
 The constants in the table were derived from values in the the manufacturere supplied kr210.urdf.xacro file as follows:
 
-(these values in the urdf value are relative to previous joint)
+(The values in the urdf file are relative to previous joint)
 
 The alpha values describe the orientation of a joint's Z axis relative to the previous joint's Z axis and are either 0, pi/2, or -pi/2 radions.  (0,90,-90 degrees).  They are derived from the unit vectors described in the axis tag.
 
