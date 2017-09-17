@@ -107,7 +107,7 @@ The individual transformation matrices about each joint can be constructed by fi
     T3_4 = make_T(alpha3,a3,d4,q4,DH_Table)
     T4_5 = make_T(alpha4,a4,d5,q5,DH_Table)
     T5_6 = make_T(alpha5,a5,d6,q6,DH_Table)
-    T6_G=  make_T(alpha6,a6,d7,q7,DH_Table)
+    T6_G = make_T(alpha6,a6,d7,q7,DH_Table)
 ```
 
 Here is the generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose. R is roll, P is pitch, Y is yaw.  px,py,pz is the gripper position.
