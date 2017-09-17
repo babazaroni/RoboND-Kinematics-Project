@@ -131,7 +131,7 @@ Here is the generalized homogeneous transform between base_link and gripper_link
 
 And here's where you can draw out and show your math for the derivation of your theta angles. 
 
-Since Joint 2 and Joint 3 have parallel z axis and coincedent x axis, their theta angles can be derived from the same triangle as shown below
+Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as shown below
 
 ![alt text][image5]
 
