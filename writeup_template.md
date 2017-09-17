@@ -20,6 +20,7 @@
 [image1]: ./misc_images/misc1.png
 [image2]: ./misc_images/misc3.png
 [image3]: ./misc_images/misc2.png
+[image4]: ./misc_images/joint-diagram.png
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -27,18 +28,12 @@
 ---
 ### Writeup / README
 
-#### 1. Provide a Writeup / README that includes all the rubric points and how you addressed each one.  You can submit your writeup as markdown or pdf.  
-
-You're reading it!
-
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-Here is an example of how to include an image in your writeup.
+The joint diagram describing the KR210 manipulator is:
 
-![alt text][image1]
-
-#### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
+![alt text][image4]
 
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
@@ -49,6 +44,45 @@ Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 4->5 | pi/2	 | 0 | 0 | q5
 5->6 | -pi/2	 | 0 | 0 | q6
 6->EE | 0 | 0 | 0.303 | 0
+
+
+#### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
+
+The individual transformation matrices about each joint can be constructed by first defining the a function that creates the matrix and substitues the values from the DH table defined above.  Then, each joint to joint table can be defined by calling this function with the corresponding symbols and supplying the DH table.
+
+```
+    def make_T(twist_angle, link_length, link_offset, joint_angle, subvals):
+        m = Matrix([[cos(joint_angle), -sin(joint_angle), 0, link_length],
+                    [sin(joint_angle) * cos(twist_angle), cos(joint_angle) * cos(twist_angle), -sin(twist_angle),
+                     -sin(twist_angle) * link_offset],
+                    [sin(joint_angle) * sin(twist_angle), cos(joint_angle) * sin(twist_angle), cos(twist_angle),
+                     cos(twist_angle) * link_offset],
+                    [0, 0, 0, 1]])
+        return m.subs(subvals)
+
+    # Create individual transformation matrices
+
+    T0_1 = make_T(alpha0,a0,d1,q1,DH_Table)
+    T1_2 = make_T(alpha1,a1,d2,q2,DH_Table)
+    T2_3 = make_T(alpha2,a2,d3,q3,DH_Table)
+    T3_4 = make_T(alpha3,a3,d4,q4,DH_Table)
+    T4_5 = make_T(alpha4,a4,d5,q5,DH_Table)
+    T5_6 = make_T(alpha5,a5,d6,q6,DH_Table)
+    T6_G=  make_T(alpha6,a6,d7,q7,DH_Table)
+```
+
+Here is the generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose. R is roll, P is pitch, Y is yaw.  px,py,pz is the gripper position.
+
+```
+
+[cos(p)*cos(Y), sin(p)*sin(r)*cos(Y) - sin(y)*cos(R), sin(P)*cos(R)*cos(Y) + sin(R)*sin(Y), px]
+[sin(y)*cos(P), sin(p)*sin(r)*sin(Y) + cos(r)*cos(Y), sin(P)*sin(Y)*cos(R) - sin(R)*cos(Y), py]
+[      -sin(P),                        sin(r)*cos(P),                        cos(P)*cos(R), pz]
+             0,                                    0,                                    0,  1]
+
+```
+
+
 
 
 #### 3. Decouple Inverse Kinematics problem into Inverse Position Kinematics and inverse Orientation Kinematics; doing so derive the equations to calculate all individual joint angles.
@@ -63,9 +97,5 @@ And here's where you can draw out and show your math for the derivation of your 
 
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
-
-
-And just for fun, another example image:
-![alt text][image3]
 
 
