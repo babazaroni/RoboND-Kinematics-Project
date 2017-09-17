@@ -75,7 +75,6 @@ Here is the generalized homogeneous transform between base_link and gripper_link
 
 ```
 
-[
 [cos(p)*cos(Y), sin(p)*sin(r)*cos(Y) - sin(y)*cos(R), sin(P)*cos(R)*cos(Y) + sin(R)*sin(Y), px]
 [sin(y)*cos(P), sin(p)*sin(r)*sin(Y) + cos(r)*cos(Y), sin(P)*sin(Y)*cos(R) - sin(R)*cos(Y), py]
 [      -sin(P),                        sin(r)*cos(P),                        cos(P)*cos(R), pz]
