@@ -133,7 +133,7 @@ And here's where you can draw out and show your math for the derivation of your 
 
 The last three joints (4,5,6) form a wrist such that the center of joint 5 is the wrist center.  No matter what adjustments you make to joint 4,5, or 6 the position in world coordinates of the wrist center will not change.  The wrist center position is dependant only on joints 1,2,3.  So we can seperate the inverse kinematics problem, one to find the joint angles 1,2,3 from the wrist position, and the second to find the joint angles 4,5,6 from the orientation of the gripper.  The orientation is it's roll, pitch and yaw.
 
-####Inverse Position Kinematics
+#### Inverse Position Kinematics
 
 Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as projected on the x-y plane as shown below:
 
@@ -164,7 +164,7 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
         theta3 = pi / 2 - (angle_b + .036)  # .036 accounts for sag in link4 of -.054m
 ```
 
-####Inverse Orientation Kinematics
+#### Inverse Orientation Kinematics
 
 
 
