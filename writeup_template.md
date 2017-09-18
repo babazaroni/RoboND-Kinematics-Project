@@ -131,9 +131,29 @@ Here is the generalized homogeneous transform between base_link and gripper_link
 
 And here's where you can draw out and show your math for the derivation of your theta angles. 
 
-Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as shown below
+Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as projected on the x-y plane as shown below:
 
 ![alt text][image5]
+
+Side A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
+Side C is the constant distance between joint 2 and 3.
+Side B is the calculated distance between joint 2 and the wrist center.  Since the wc is in world coordinates, the postion of joint 2 needs to be subtracted from it.
+
+```
+        side_a = 1.501
+        side_b = sqrt(pow((sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35), 2) + pow((WC[2] - .75), 2))
+        side_c = 1.25
+```
+
+The law of cosines states that if you know the lengths of each of the sides of a triangle, you can calculate each of the interior angles.  Thus:
+
+```
+        angle_a = acos((side_b * side_b + side_c * side_c - side_a * side_a) / (2 * side_b * side_c))
+        angle_b = acos((side_a * side_a + side_c * side_c - side_b * side_b) / (2 * side_a * side_c))
+        angle_c = acos((side_a * side_a + side_b * side_b - side_c * side_c) / (2 * side_a * side_b))
+```
+
+
 
 
 ### Project Implementation
