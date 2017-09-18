@@ -152,6 +152,13 @@ The law of cosines states that if you know the lengths of each of the sides of a
         angle_b = acos((side_a * side_a + side_c * side_c - side_b * side_b) / (2 * side_a * side_c))
         angle_c = acos((side_a * side_a + side_b * side_b - side_c * side_c) / (2 * side_a * side_b))
 ```
+Theta2 is the remaining angle after you subtrace angle_a plus the angle formed by side B and the x axis from 90 degrees.
+Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle_b and the sag angle subtraced from 90 degrees.
+
+```
+        theta2 = pi / 2 - angle_a - atan2(WC[2] - .75, sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35)
+        theta3 = pi / 2 - (angle_b + .036)  # .036 accounts for sag in link4 of -.054m
+```
 
 
 
