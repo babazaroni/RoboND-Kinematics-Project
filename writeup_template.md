@@ -38,7 +38,7 @@ The joint diagram describing the KR210 manipulator is:
 
 ![alt text][image4]
 
-Below is a hand drawn diagram listing the locations of the alpha, a and d constants and the q variables.  The alphas represent the orientation of a joint's z axis from the previous joint's z axis.  The a's are the displacement of the next joint z axis from the previous joint z axis along the x axis.  The d constant is the displacement of the next joint x axis from the prevous joint x axis along the z axis.  The q's represent the joint angle of movement.
+Below is a hand drawn diagram listing the locations of the alpha, a and d constants and the q variables.  The alphas represent the orientation of a joint's z axis from the previous joint's z axis.  The a's are the displacement of the next joint z axis from the previous joint z axis along the x axis.  The d constant is the displacement of the next joint x axis from the prevous joint x axis along the z axis.  The theta's represent the joint's angle of movement.
 
 ![alt text][image6]
 
