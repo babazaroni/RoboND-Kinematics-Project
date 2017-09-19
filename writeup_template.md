@@ -215,6 +215,14 @@ Here I'll talk about the code, what techniques I used, what worked and why, wher
 
 The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
 
+#### Tasks that are done once for each call handle_calculate_IK
+
+1. Create the symbols to represent the `alpha, `a, `d, and `q values.
+2. Create the dh table dictionary `s to hold the values
+
+#### Tasks that are done for each end effector pose
+
+
 The first task is to calculate the wrist center position
 
 improve, why the unecessary wrist rotations.
