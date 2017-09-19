@@ -142,7 +142,7 @@ Since the joint 1 swings the wc around on the x,y plane, it's angle is simple to
         theta1 = atan2(wcy,wcx)
 ```
 
-Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the triangle they form.
+Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the triangle they form on the plane formed by the joints.
 
 ![alt text][image7]
 
