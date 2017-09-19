@@ -38,6 +38,10 @@ The joint diagram describing the KR210 manipulator is:
 
 ![alt text][image4]
 
+Below is a hand drawn diagram listing the locations of the constants a and d constants.  The a's are the displacement of the next joint from the previous joint along the x axis.  The d constant is the displacement of the next joint from the prevous joint along the z axis.
+
+![alt text][image6]
+
 
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
@@ -86,7 +90,7 @@ DH_Table = {
         alpha6:       0, a6:      0, d7:0.303, q7:           0 }
 ```
 
-![alt text][image6]
+
 
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
