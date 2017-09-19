@@ -177,6 +177,21 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
 
 #### Inverse Orientation Kinematics
 
+'''
+        R0_3 = T0_1[0:3, 0:3] * T1_2[0:3, 0:3] * T2_3[0:3, 0:3]
+        R0_3 = R0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
+
+        # The rotation matrix from 3 to 6 is total rotation to the end effector with the 0-3 rotation extracted by
+        # multiply with the 0-3 inverse.  Transpose can give inverse for symetric matrics
+
+        R3_6 = R0_3.transpose() * rm_ee  # transpose gives better results than inv("LU")
+
+        if x == len(req.poses) - 1:  # use only the last wrist angles
+            theta4 = atan2(R3_6[2, 2], -R3_6[0, 2])
+            theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])
+            theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
+'''
+
 
 
 
