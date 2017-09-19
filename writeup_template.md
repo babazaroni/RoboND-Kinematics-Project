@@ -141,7 +141,7 @@ The last three joints (4,5,6) form a wrist such that the center of joint 5 is th
 
 The diagram above is used to calculate the joint positions (thetas) of the first three joints.
 
-For theta1, we use the left diagram which is a view down on the arm as it is seen on the xy plane.  The calculation is then:
+For theta1, we use the left diagram which is a view down on the arm as it is seen on the xy plane.  The calculation is thus:
 
 ```
         theta1 = atan2(wcy,wcx)
