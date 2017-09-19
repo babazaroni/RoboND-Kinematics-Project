@@ -208,4 +208,6 @@ Since we have uncoupled the inverse orientation kinemtics we can focus on the la
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
 
+improve, why the unecessary wrist rotations.
+
 
