@@ -167,18 +167,20 @@ To find B we need to calculate D and E.  Here is the code
         a = acos((B * B + C * C - A * A) / (2 * B * C))
         b = acos((A * A + C * C - B * B) / (2 * A * C))
 ```
+
 Theta2 is the remaining angle after you subtract angle a plus the angle formed by side B and the x axis from 90 degrees.
 Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle b and the sag angle subtraced from 90 degrees.
 
 ```
+
         theta2 = pi / 2 - a - atan2(E, D)
         theta3 = pi / 2 - angle_b - .036  # .036 accounts for sag in link4 of -.054m
+        
 ```
 
 #### Inverse Orientation Kinematics
 
-        Since we have uncoupled the inverse orientation kinemtics we can focus on the last three joints.
-        The key to finding theta 4,5,6 is to obtain the rotation matrix for joints 4,5,6.  Since we are given the pose of the end effector, we know the rotation matrix for the base to end effector (global rotation matrix).  The rotation matrix for the last three joints is then extracted from the global rotation matrix by inverting the rotation matrix of the first three joints and multiplying by the global rotation matrix.
+        
 
 '''
 
@@ -193,6 +195,7 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
         theta4 = atan2(R3_6[2, 2], -R3_6[0, 2])
         theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])
         theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
+
 '''
 
 
