@@ -147,16 +147,6 @@ C is the constant distance between joint 2 and 3.
 
 To find B we need to calculate D and E.  Here is the code
 
-Side B is the calculated distance between joint 2 and the wrist center.  Since the wc is in world coordinates, the postion of joint 2 needs to be subtracted from it.
-
-```
-        side_a = 1.501
-        side_b = sqrt(pow((sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35), 2) + pow((WC[2] - .75), 2))
-        side_c = 1.25
-```
-
-The law of cosines states that if you know the lengths of each of the sides of a triangle, you can calculate each of the interior angles.  Thus:
-
 ```
         D = sqrt(wcx * wcx + wcy * wcy) - s[a1]
         E = wcz - s[d1]
