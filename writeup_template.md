@@ -23,6 +23,7 @@
 [image4]: ./misc_images/joint-diagram.png
 [image5]: ./misc_images/SSS-diagram.png
 [image6]: ./misc_images/joint-diagram-hand-drawn.jpg
+[image7]: ./misc_images/j234-hand-drawn.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
@@ -135,33 +136,41 @@ The last three joints (4,5,6) form a wrist such that the center of joint 5 is th
 
 #### Inverse Position Kinematics
 
-Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as projected on the x-y plane as shown below:
-
-![alt text][image5]
-
-Side A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
-Side C is the constant distance between joint 2 and 3.
-Side B is the calculated distance between joint 2 and the wrist center.  Since the wc is in world coordinates, the postion of joint 2 needs to be subtracted from it.
+Since the joint 1 swings the wc around on the x,y plane, it's angle is simple to calculate as follows:
 
 ```
-        side_a = 1.501
-        side_b = sqrt(pow((sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35), 2) + pow((WC[2] - .75), 2))
-        side_c = 1.25
+        theta1 = atan2(wcy,wcx)
 ```
 
-The law of cosines states that if you know the lengths of each of the sides of a triangle, you can calculate each of the interior angles.  Thus:
+Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the triangle they form on the plane formed by the joints.
+
+![alt text][image7]
+
+The diagram above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
+
+A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
+C is the constant distance between joint 2 and 3.
+
+To find B we need to calculate D and E.  Here is the code
 
 ```
-        angle_a = acos((side_b * side_b + side_c * side_c - side_a * side_a) / (2 * side_b * side_c))
-        angle_b = acos((side_a * side_a + side_c * side_c - side_b * side_b) / (2 * side_a * side_c))
-        angle_c = acos((side_a * side_a + side_b * side_b - side_c * side_c) / (2 * side_a * side_b))
+        D = sqrt(wcx * wcx + wcy * wcy) - s[a1]
+        E = wcz - s[d1]
+
+        A = 1.501  # use RVIZ to measure the distance between joint 3 and wrist center
+        B = sqrt(D * D + E * E)
+        C = s[a2]  # x distance between joint 1 and 2
+        
+
+        a = acos((B * B + C * C - A * A) / (2 * B * C))
+        b = acos((A * A + C * C - B * B) / (2 * A * C))
 ```
-Theta2 is the remaining angle after you subtract angle_a plus the angle formed by side B and the x axis from 90 degrees.
-Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle_b and the sag angle subtraced from 90 degrees.
+Theta2 is the remaining angle after you subtract angle a plus the angle formed by side B and the x axis from 90 degrees.
+Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle b and the sag angle subtraced from 90 degrees.
 
 ```
-        theta2 = pi / 2 - angle_a - atan2(WC[2] - .75, sqrt(WC[0] * WC[0] + WC[1] * WC[1]) - 0.35)
-        theta3 = pi / 2 - (angle_b + .036)  # .036 accounts for sag in link4 of -.054m
+        theta2 = pi / 2 - a - atan2(E, D)
+        theta3 = pi / 2 - angle_b - .036  # .036 accounts for sag in link4 of -.054m
 ```
 
 #### Inverse Orientation Kinematics
