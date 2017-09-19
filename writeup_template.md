@@ -180,6 +180,9 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
 
 #### Inverse Orientation Kinematics
 
+Since we have uncoupled the inverse orientation kinemtics we can focus on the last three joints. The key to finding theta 4,5,6 is to obtain the rotation matrix for joints 4,5,6.  Since we are given the pose of the end effector, we know the rotation matrix for the base to end effector (global rotation matrix).  The rotation matrix for the last three joints is then extracted from the global rotation matrix by inverting the rotation matrix of the first three joints and multiplying by the global rotation matrix.
+
+
         
 
         R0_3 = T0_1[0:3, 0:3] * T1_2[0:3, 0:3] * T2_3[0:3, 0:3]
