@@ -136,17 +136,19 @@ The last three joints (4,5,6) form a wrist such that the center of joint 5 is th
 
 #### Inverse Position Kinematics
 
-Since the joint 1 swings the wc around on the x,y plane, it's angle is simple to calculate as follows:
+
+![alt text][image7]
+
+The diagram above is used to calculate the joint positions (thetas) of the first three joints.
+
+For theta1, we use the left diagram which is a view down on the arm as it is seen on the xy plane.  The calculation is then:
 
 ```
         theta1 = atan2(wcy,wcx)
 ```
 
-Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the triangle they form on the plane formed by the joints.
 
-![alt text][image7]
-
-The diagram above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
+The diagram on the right above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
 
 A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
 C is the constant distance between joint 2 and 3.
