@@ -208,6 +208,11 @@ Since we have uncoupled the inverse orientation kinemtics we can focus on the la
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
 
+The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
+
+The first task is to calculate the wrist center position
+
 improve, why the unecessary wrist rotations.
+Move unchainging calculations to a class or pickle
 
 
