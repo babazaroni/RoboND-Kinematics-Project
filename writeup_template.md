@@ -217,10 +217,24 @@ The task was to code handle_calculate_IK routine.  Gazebo first plans a route th
 
 #### Tasks that are done once for each call handle_calculate_IK
 
-1. Create the symbols to represent the `alpha, `a, `d, and `q values.
-2. Create the dh table dictionary `s to hold the values
+1. Create the symbols to represent the `alpha`, `a`, `d`, and `q` values.
+2. Create the dh table dictionary `s` to hold the values
+3. Define function `make_T' to create a transformation table and substitute in values from the 's' dictionary.
+4. Call the function 'make_T' to create the transformation tables
 
 #### Tasks that are done for each end effector pose
+
+1.   Extract the end effector position from the pose into `ee_po`.
+2.   Extract the `roll`, `pitch` and `yaw` from the pose orientation using the `tf.transformations.euler` method
+3.   Create the `rm_roll`, `rm-pitch` and `rm_yaw` roll matrices.
+4.   Calculate the global rotation matrix `rm_ee` from the roll, pitch and yaw matrices.
+5.   Adjust `rm_ee` to compensate for the difference in orientation defined in urdf file and our dh convention
+6.   Substitue into `rm_ee` the values of roll, pitch, and yaw from the current pose.
+7.   Calculate the wrist position.
+8.   Calculate the theta's for the first three joints.  Described in detail above.
+9.   Calculate the theta's for the last three joints.  Described in detail above.
+10.  Create a `JointTrajectoryPoint` from the theta's and place in the `joint_trajectory_list`.
+11.  Return the `joint_trajectory_list`.
 
 
 The first task is to calculate the wrist center position
