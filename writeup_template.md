@@ -182,8 +182,6 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
 
         
 
-'''
-
         R0_3 = T0_1[0:3, 0:3] * T1_2[0:3, 0:3] * T2_3[0:3, 0:3]
         R0_3 = R0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
 
@@ -196,7 +194,6 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
         theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])
         theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
 
-'''
 
 
 
