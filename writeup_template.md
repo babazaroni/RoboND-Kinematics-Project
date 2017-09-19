@@ -42,7 +42,7 @@ Below is a hand drawn diagram listing the locations of the alpha, a and d consta
 
 ![alt text][image6]
 
-The constants and varibles in table form:
+The constants and variables in table form:
 
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
