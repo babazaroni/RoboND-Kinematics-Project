@@ -23,7 +23,7 @@
 [image4]: ./misc_images/joint-diagram.png
 [image5]: ./misc_images/SSS-diagram.png
 [image6]: ./misc_images/joint-diagram-hand-drawn.jpg
-[image7]: ./misc_images/j234-hand-drawn.jpg
+[image7]: ./misc_images/j1234-hand-drawn.jpg
 
 ## [Rubric](https://review.udacity.com/#!/rubrics/972/view) Points
 ### Here I will consider the rubric points individually and describe how I addressed each point in my implementation.  
