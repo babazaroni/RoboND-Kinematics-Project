@@ -136,6 +136,12 @@ The last three joints (4,5,6) form a wrist such that the center of joint 5 is th
 
 #### Inverse Position Kinematics
 
+Since the joint 1 swings the wc around on the x,y plane, it's angle is simple to calculate as follows:
+
+```
+        theta1 = atan2(wcy,wcx)
+```
+
 Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the same triangle as projected on the x-y plane as shown below:
 
 ![alt text][image7]
