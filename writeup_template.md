@@ -213,7 +213,7 @@ Since we have uncoupled the inverse orientation kinemtics we can focus on the la
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
 
-The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
+The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot arm should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
 
 #### Tasks that are done once for each call handle_calculate_IK
 
@@ -224,7 +224,7 @@ The task was to code handle_calculate_IK routine.  Gazebo first plans a route th
 
 #### Tasks that are done for each end effector pose
 
-1.   Extract the end effector position from the pose into `ee_po`.
+1.   Extract the end effector position from the pose into `ee_pos`.
 2.   Extract the `roll`, `pitch` and `yaw` from the pose orientation using the `tf.transformations.euler` method
 3.   Create the `rm_roll`, `rm-pitch` and `rm_yaw` roll matrices.
 4.   Calculate the global rotation matrix `rm_ee` from the roll, pitch and yaw matrices.
@@ -237,9 +237,9 @@ The task was to code handle_calculate_IK routine.  Gazebo first plans a route th
 11.  Return the `joint_trajectory_list`.
 
 
-The first task is to calculate the wrist center position
+#### Results
 
-improve, why the unecessary wrist rotations.
-Move unchainging calculations to a class or pickle
+The system takes about six seconds to return the joint list on my 2011 mac pro.  This could be improved by moving more calculations out of the inner loop.  But, it takes thirty seconds for the arm to move to the bin which is beyond the control of IK_server.py.  I noticed that there were a lot of unnecessary wrist movements during the movement to the bin so I eliminated them by only using the last wrist positions on the last pose request.  Some times, the motion planner would request a wild loop to the target or bin, which also is beyond the control of IK_server.py.  It would be interesting to see the planner code and to correct this.
+
 
 
