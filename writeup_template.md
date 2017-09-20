@@ -34,10 +34,15 @@
 ### Kinematic Analysis
 #### 1. Run the forward_kinematics demo and evaluate the kr210.urdf.xacro file to perform kinematic analysis of Kuka KR210 robot and derive its DH parameters.
 
-The joint diagram describing the KR210 manipulator is:
+The joint diagram describing the KR210 manipulator and each joint's z and x axis:
 
 ![alt text][image4]
 
+Below is a hand drawn diagram listing the locations of the alpha, a and d constants and the q variables.  The alphas represent the orientation of a joint's z axis from the previous joint's z axis.  The a's are the displacement of the joint's z axis from the previous joint's z axis along the x axis.  The d constant is the displacement of the joint's x axis from the prevous joint x axis along the z axis.  The theta's represent the joint's angle of movement.
+
+![alt text][image6]
+
+The constants and variables in table form:
 
 Links | alpha(i-1) | a(i-1) | d(i-1) | theta(i)
 --- | --- | --- | --- | ---
@@ -86,7 +91,7 @@ DH_Table = {
         alpha6:       0, a6:      0, d7:0.303, q7:           0 }
 ```
 
-![alt text][image6]
+
 
 
 #### 2. Using the DH parameter table you derived earlier, create individual transformation matrices about each joint. In addition, also generate a generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose.
@@ -136,17 +141,19 @@ The last three joints (4,5,6) form a wrist such that the center of joint 5 is th
 
 #### Inverse Position Kinematics
 
-Since the joint 1 swings the wc around on the x,y plane, it's angle is simple to calculate as follows:
+
+![alt text][image7]
+
+The diagram above is used to calculate the joint positions (thetas) of the first three joints.
+
+For theta1, we use the left diagram which is a view down on the arm as it is seen on the xy plane.  The calculation is thus:
 
 ```
         theta1 = atan2(wcy,wcx)
 ```
 
-Since Joint 2 and Joint 3 have parallel z axis, their theta angles can be derived from the triangle they form on the plane formed by the joints.
 
-![alt text][image7]
-
-The diagram above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
+The diagram on the right above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
 
 A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
 C is the constant distance between joint 2 and 3.
@@ -165,15 +172,36 @@ To find B we need to calculate D and E.  Here is the code
         a = acos((B * B + C * C - A * A) / (2 * B * C))
         b = acos((A * A + C * C - B * B) / (2 * A * C))
 ```
+
 Theta2 is the remaining angle after you subtract angle a plus the angle formed by side B and the x axis from 90 degrees.
 Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle b and the sag angle subtraced from 90 degrees.
 
 ```
+
         theta2 = pi / 2 - a - atan2(E, D)
         theta3 = pi / 2 - angle_b - .036  # .036 accounts for sag in link4 of -.054m
+        
 ```
 
 #### Inverse Orientation Kinematics
+
+Since we have uncoupled the inverse orientation kinemtics we can focus on the last three joints. The key to finding theta 4,5,6 is to obtain the rotation matrix for joints 4,5,6.  Since we are given the pose of the end effector, we know the rotation matrix for the base to end effector (global rotation matrix).  The rotation matrix for the last three joints is then extracted from the global rotation matrix by inverting the rotation matrix of the first three joints and multiplying by the global rotation matrix.
+
+
+        
+
+        R0_3 = T0_1[0:3, 0:3] * T1_2[0:3, 0:3] * T2_3[0:3, 0:3]
+        R0_3 = R0_3.evalf(subs={q1: theta1, q2: theta2, q3: theta3})
+
+        # The rotation matrix from 3 to 6 is total rotation to the end effector with the 0-3 rotation extracted by
+        # multiply with the 0-3 inverse.  Transpose can give inverse for symetric matrics
+
+        R3_6 = R0_3.transpose() * rm_ee  # transpose gives better results than inv("LU")
+        
+        theta4 = atan2(R3_6[2, 2], -R3_6[0, 2])
+        theta5 = atan2(sqrt(R3_6[0, 2] * R3_6[0, 2] + R3_6[2, 2] * R3_6[2, 2]), R3_6[1, 2])
+        theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
+
 
 
 
@@ -184,5 +212,34 @@ Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of an
 
 
 Here I'll talk about the code, what techniques I used, what worked and why, where the implementation might fail and how I might improve it if I were going to pursue this project further.  
+
+The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
+
+#### Tasks that are done once for each call handle_calculate_IK
+
+1. Create the symbols to represent the `alpha`, `a`, `d`, and `q` values.
+2. Create the dh table dictionary `s` to hold the values
+3. Define function `make_T' to create a transformation table and substitute in values from the 's' dictionary.
+4. Call the function 'make_T' to create the transformation tables
+
+#### Tasks that are done for each end effector pose
+
+1.   Extract the end effector position from the pose into `ee_po`.
+2.   Extract the `roll`, `pitch` and `yaw` from the pose orientation using the `tf.transformations.euler` method
+3.   Create the `rm_roll`, `rm-pitch` and `rm_yaw` roll matrices.
+4.   Calculate the global rotation matrix `rm_ee` from the roll, pitch and yaw matrices.
+5.   Adjust `rm_ee` to compensate for the difference in orientation defined in urdf file and our dh convention
+6.   Substitue into `rm_ee` the values of roll, pitch, and yaw from the current pose.
+7.   Calculate the wrist position.
+8.   Calculate the theta's for the first three joints.  Described in detail above.
+9.   Calculate the theta's for the last three joints.  Described in detail above.
+10.  Create a `JointTrajectoryPoint` from the theta's and place in the `joint_trajectory_list`.
+11.  Return the `joint_trajectory_list`.
+
+
+The first task is to calculate the wrist center position
+
+improve, why the unecessary wrist rotations.
+Move unchainging calculations to a class or pickle
 
 
