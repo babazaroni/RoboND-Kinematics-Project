@@ -121,12 +121,12 @@ For theta1, we use the left diagram which is a view down on the arm as it is see
 ```
 
 
-The diagram on the right above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles a,b.  This requires us to obtain the lengths A,B,C.  These sides form an SSS triangle and we can use the law of cosines to find the angles
+The diagram on the right above is a view of the plane formed by the joints.  To calculate the joint angles, we will need to find the angles `a,b`.  This requires us to obtain the lengths `A,B,C`.  These sides form an SSS triangle and we can use the law of cosines to find the angles
 
-A is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
-C is the constant distance between joint 2 and 3.
+`A` is a the constant distance between joint 3 and the wrist center.  It is is measured with RViz and set accordingly.
+`C` is the constant distance between joint 2 and 3.
 
-To find B we need to calculate D and E.  Here is the code
+To find `B` we need to calculate `D` and `E`.  Here is the code
 
 ```
         D = sqrt(wcx * wcx + wcy * wcy) - s[a1]
@@ -141,8 +141,8 @@ To find B we need to calculate D and E.  Here is the code
         b = acos((A * A + C * C - B * B) / (2 * A * C))
 ```
 
-Theta2 is the remaining angle after you subtract angle a plus the angle formed by side B and the x axis from 90 degrees.
-Link 4 sags by a small fixed amount (.036 rads) so theta3 is the remainder of angle b and the sag angle subtraced from 90 degrees.
+`Theta2` is the remaining angle after you subtract angle `a` plus the angle formed by side `B` and the x axis from 90 degrees.
+Link 4 sags by a small fixed amount (.036 rads) so `theta3` is the remainder of angle `b` and the `sag angle` subtraced from 90 degrees.
 
 ```
 
