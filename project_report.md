@@ -171,7 +171,7 @@ Since we have uncoupled the inverse orientation kinemtics we can focus on the la
         theta6 = atan2(-R3_6[1, 1], R3_6[1, 0])
 
 
-
+### Project Summary
 
 The task was to code handle_calculate_IK routine.  Gazebo first plans a route the robot arm should take to get the end effector to a position in front of the target and a second time, move to the bin.  The plan is a list of positions and orientations of the end effector.  This list is passed to handle_calculate_IK and it returns a list of joint positions for each of the points and orientations in the list.
 
