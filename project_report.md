@@ -199,7 +199,7 @@ The task was to code handle_calculate_IK routine.  Gazebo first plans a route th
 
 #### Results
 
-The system takes about six seconds to return the joint list on my 2011 mac pro.  This could be improved by moving more calculations out of the inner loop.  But, it takes thirty seconds for the arm to move to the bin which is beyond the control of IK_server.py.  I noticed that there were a lot of unnecessary wrist movements during the movement to the bin so I eliminated them by only using the last wrist positions on the last pose request.  Some times, the motion planner would request a wild loop to the target or bin, which also is beyond the control of IK_server.py.  It would be interesting to see the planner code and to correct this.
+The system takes about six seconds to return the joint list on a 2011 mac pro.  This could be improved by moving more calculations out of the inner loop.  But, it takes thirty seconds for the arm to move to the bin which is beyond the control of IK_server.py.  I noticed that there were a lot of unnecessary wrist movements during the movement to the bin so I eliminated them by only using the last wrist positions on the last pose request.  Some times, the motion planner would request a wild loop to the target or bin, which also is beyond the control of IK_server.py.  It would be interesting to see the planner code and to correct this.
 
 
 
