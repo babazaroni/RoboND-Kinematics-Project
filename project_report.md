@@ -13,7 +13,7 @@ The joint diagram describing the KR210 manipulator and each joint's z and x axis
 
 ![alt text][image4]
 
-Below is a hand drawn diagram listing the locations of the alpha, a and d constants and the q variables.  The alphas represent the orientation of a joint's z axis from the previous joint's z axis.  The a's are the displacement of the joint's z axis from the previous joint's z axis along the x axis.  The d constant is the displacement of the joint's x axis from the prevous joint x axis along the z axis.  The theta's represent the joint's angle of movement.
+Below is a hand drawn diagram listing the locations of the `alpha`, `a` and `d` constants and the `q` variables.  The alphas represent the orientation of a joint's z axis from the previous joint's z axis.  The a's are the displacement of the joint's z axis from the previous joint's z axis along the x axis.  The `d` constant is the displacement of the joint's x axis from the prevous joint x axis along the z axis.  The theta's represent the joint's angle of movement.
 
 ![alt text][image6]
 
@@ -91,7 +91,7 @@ The individual transformation matrices about each joint can be constructed by fi
     T6_G = make_T(alpha6,a6,d7,q7,DH_Table)
 ```
 
-Here is the generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose. R is roll, P is pitch, Y is yaw.  px,py,pz is the gripper position.
+Here is the generalized homogeneous transform between base_link and gripper_link using only end-effector(gripper) pose. `R` is roll, `P` is pitch, `Y` is yaw.  `px,py,pz` is the gripper position.
 
 ```
 
@@ -103,7 +103,7 @@ Here is the generalized homogeneous transform between base_link and gripper_link
 ```
 
 
-
+### Inverse Kinematics
 
 The last three joints (4,5,6) form a wrist such that the center of joint 5 is the wrist center.  No matter what adjustments you make to joint 4,5, or 6 the position in world coordinates of the wrist center will not change.  The wrist center position is dependant only on joints 1,2,3.  So we can seperate the inverse kinematics problem, one to find the joint angles 1,2,3 from the wrist position, and the second to find the joint angles 4,5,6 from the orientation of the gripper.  The orientation is it's roll, pitch and yaw.
 
